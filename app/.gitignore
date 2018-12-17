@@ -1,0 +1,11 @@
+/build
+.idea
+.gradle
+/local.properties
+/.idea/workspace.xml
+*.user
+*.iml
+.DS_Store
+.idea/instapk.xml
+instapk.log*
+instapk.properties
