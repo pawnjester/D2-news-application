@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">D2-news-application</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_food">Food</string>
+    <string name="title_fashion">Fashion</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loadingText">Loading</string>
 </resources>
