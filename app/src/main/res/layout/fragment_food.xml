@@ -20,8 +20,8 @@
 
         <ProgressBar
             android:id="@+id/food_progress"
-            android:layout_width="77dp"
-            android:layout_height="77dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:visibility="gone"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
