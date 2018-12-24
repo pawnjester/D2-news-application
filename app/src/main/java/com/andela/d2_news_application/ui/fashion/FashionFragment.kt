@@ -1,6 +1,7 @@
 package com.andela.d2_news_application.ui.fashion
 
 
+import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,6 +13,11 @@ import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.CommonAdapter
 import com.andela.d2_news_application.databinding.FragmentFashionBinding
+import com.andela.d2_news_application.utils.dontShow
+import com.andela.d2_news_application.utils.show
+import com.andela.d2_news_application.utils.showToast
+import com.andela.d2_news_application.viewModel.SharedViewModel
+import kotlinx.android.synthetic.main.fragment_fashion.*
 
 
 /**
@@ -21,6 +27,9 @@ import com.andela.d2_news_application.databinding.FragmentFashionBinding
 class FashionFragment : Fragment() {
 
     private lateinit var binding: FragmentFashionBinding
+
+    private lateinit var viewModel: SharedViewModel
+
     private val listAdapter by lazy {
         CommonAdapter()
     }
@@ -40,8 +49,39 @@ class FashionFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initViewModel()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getFahionArticles()
+    }
+
 
     companion object {
         fun newInstance() = FashionFragment()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProviders
+                .of(activity!!).get(SharedViewModel::class.java)
+    }
+
+    private fun getFahionArticles() {
+        fashion_progress.show()
+        viewModel.getFashionData({
+            response, error ->
+            listAdapter.updateList(response?.results!!)
+            fashion_progress.dontShow()
+
+            if (error != null) context?.showToast("Error retrieving articles")
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clearDisposables()
     }
 }
