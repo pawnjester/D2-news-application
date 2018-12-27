@@ -13,9 +13,7 @@ import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.CommonAdapter
 import com.andela.d2_news_application.databinding.FragmentHomeBinding
-import com.andela.d2_news_application.utils.dontShow
-import com.andela.d2_news_application.utils.show
-import com.andela.d2_news_application.utils.showToast
+import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
@@ -73,13 +71,18 @@ class HomeFragment : Fragment() {
 
     private fun getHomeArticles() {
         home_progress.show()
-        viewModel.getHomeData({
-            response, error ->
-            listAdapter.updateList(response?.results!!)
-            home_progress.dontShow()
+        val isConnected = CheckConnection(activity!!).isConnected()
+        if (isConnected){
+            viewModel.getHomeData({
+                response, error ->
+                listAdapter.updateList(response?.results!!)
+                home_progress.dontShow()
 
-            if (error != null) context?.showToast("Error retrieving articles")
-        })
+                if (error != null) context?.showToast("Error retrieving articles")
+            })
+        } else{
+            container.showSnackbar("No internet Connection")
+        }
     }
 
     override fun onDestroy() {

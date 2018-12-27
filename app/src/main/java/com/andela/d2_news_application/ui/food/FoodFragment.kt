@@ -13,11 +13,10 @@ import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.CommonAdapter
 import com.andela.d2_news_application.databinding.FragmentFoodBinding
-import com.andela.d2_news_application.utils.dontShow
-import com.andela.d2_news_application.utils.show
-import com.andela.d2_news_application.utils.showToast
+import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_food.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * A simple [Fragment] subclass.
@@ -70,13 +69,18 @@ class FoodFragment : Fragment() {
 
     private fun getFoodArticles() {
         food_progress.show()
-        viewModel.getFoodData({
-            response, error ->
-            listAdapter.updateList(response?.results!!)
-            food_progress.dontShow()
+        val isConnected = CheckConnection(activity!!).isConnected()
+        if (isConnected) {
+            viewModel.getFoodData({
+                response, error ->
+                listAdapter.updateList(response?.results!!)
+                food_progress.dontShow()
 
-            if (error != null) context?.showToast("Error retrieving articles")
-        })
+                if (error != null) context?.showToast("Error retrieving articles")
+            })
+        } else {
+            food_container.showSnackbar("No internet Connection")
+        }
     }
 
     override fun onDestroy() {

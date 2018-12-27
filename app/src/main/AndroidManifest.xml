@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.andela.d2_news.application.data.DataContentProvider"
+            android:name=".data.DataContentProvider"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

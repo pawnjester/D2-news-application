@@ -2,8 +2,10 @@ package com.andela.d2_news_application.utils
 
 import android.content.Context
 import android.databinding.BindingAdapter
+import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +24,9 @@ fun View.show(){
 fun View.dontShow() {
     visibility = View.GONE
 }
+
+fun ViewGroup.showSnackbar(message: String) = Snackbar
+        .make(this, message, Snackbar.LENGTH_LONG).show()
 
 
 @BindingAdapter("formattedDate")
