@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
         home_progress.show()
         val isConnected = CheckConnection(activity!!).isConnected()
         if (isConnected){
-            viewModel.getHomeData({
+            viewModel.getHome({
                 response, error ->
                 listAdapter.updateList(response?.results!!)
                 home_progress.dontShow()

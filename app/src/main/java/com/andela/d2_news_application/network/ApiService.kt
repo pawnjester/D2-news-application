@@ -3,6 +3,7 @@ package com.andela.d2_news_application.network
 import com.andela.d2_news_application.model.ApiResponse
 import com.andela.d2_news_application.model.ResultsItem
 import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 
 interface ApiService {
@@ -12,11 +13,11 @@ interface ApiService {
     }
 
     @GET("food.json")
-    fun getFood(): Single<ApiResponse<List<ResultsItem>>>
+    fun getFood(): Deferred<ApiResponse<List<ResultsItem>>>
 
     @GET("home.json")
-    fun getHomeArticles(): Single<ApiResponse<List<ResultsItem>>>
+    fun getHomeArticles(): Deferred<ApiResponse<List<ResultsItem>>>
 
     @GET("fashion.json")
-    fun getFashion(): Single<ApiResponse<List<ResultsItem>>>
+    fun getFashion(): Deferred<ApiResponse<List<ResultsItem>>>
 }

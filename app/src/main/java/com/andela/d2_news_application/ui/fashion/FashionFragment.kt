@@ -71,7 +71,7 @@ class FashionFragment : Fragment() {
         fashion_progress.show()
         val isConnected = CheckConnection(activity!!).isConnected()
         if (isConnected) {
-            viewModel.getFashionData({
+            viewModel.getFashion({
                 response, error ->
                 listAdapter.updateList(response?.results!!)
                 fashion_progress.dontShow()

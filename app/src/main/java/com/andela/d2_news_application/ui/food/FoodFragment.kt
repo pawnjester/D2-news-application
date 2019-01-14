@@ -71,7 +71,7 @@ class FoodFragment : Fragment() {
         food_progress.show()
         val isConnected = CheckConnection(activity!!).isConnected()
         if (isConnected) {
-            viewModel.getFoodData({
+            viewModel.getFood({
                 response, error ->
                 listAdapter.updateList(response?.results!!)
                 food_progress.dontShow()
