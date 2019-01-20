@@ -54,20 +54,6 @@ class SharedViewModel(app: Application): AndroidViewModel(app) {
     }
 
 
-//    fun getHomeData(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit) {
-//       disposable = api.getHomeArticles()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//               .subscribe({
-//                   home ->
-////                   saveToDatabase(home as List<ResultsItem>)
-//                   onDataObtained(home, null)
-//               }, { error ->
-//                   onDataObtained(null, error)
-//               })
-
-//    }
-
     fun getHome(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit)  {
         uiScope.launch {
             val task = withContext (bgDispatcher){
@@ -99,30 +85,6 @@ class SharedViewModel(app: Application): AndroidViewModel(app) {
     }
 
 
-
-//    fun getFoodData(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit) {
-//        disposable = api.getFood()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe({
-//                    home ->
-//                    onDataObtained(home, null)
-//                }, { error ->
-//                    onDataObtained(null, error)
-//                })
-//    }
-
-//    fun getFashionData(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit) {
-//        disposable = api.getFashion()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe({
-//                    home ->
-//                    onDataObtained(home, null)
-//                }, { error ->
-//                    onDataObtained(null, error)
-//                })
-//    }
 
     private fun saveToDatabase(resultsItem: List<ResultsItem>) {
         resultsItem.map {
