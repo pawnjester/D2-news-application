@@ -1,6 +1,5 @@
 package com.andela.d2_news_application.model
 
-
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
@@ -8,9 +7,8 @@ import android.arch.persistence.room.PrimaryKey
 import android.provider.BaseColumns
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "articles")
-data class ResultsItem(
-
+@Entity(tableName = "fahionArticles")
+data class FashionResults (
         @PrimaryKey(autoGenerate = true) var id: Long? = null,
 
         @Ignore var columnId: String? = BaseColumns._ID,

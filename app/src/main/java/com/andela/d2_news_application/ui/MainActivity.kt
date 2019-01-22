@@ -9,6 +9,7 @@ import com.andela.d2_news_application.databinding.ActivityMainBinding
 import com.andela.d2_news_application.ui.fashion.FashionFragment
 import com.andela.d2_news_application.ui.food.FoodFragment
 import com.andela.d2_news_application.ui.home.HomeFragment
+import com.facebook.stetho.Stetho
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        Stetho.initializeWithDefaults(this)
+
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 

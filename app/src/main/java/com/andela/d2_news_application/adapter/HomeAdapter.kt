@@ -3,12 +3,13 @@ package com.andela.d2_news_application.adapter
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.databinding.SingleItemBinding
 import com.andela.d2_news_application.model.ResultsItem
 
-class CommonAdapter: RecyclerView.Adapter<CommonAdapter.HomeViewHolder>() {
+class HomeAdapter(val onClick : (item: ResultsItem) -> Unit): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     private var resultItems = mutableListOf<ResultsItem>()
 
@@ -30,15 +31,22 @@ class CommonAdapter: RecyclerView.Adapter<CommonAdapter.HomeViewHolder>() {
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = resultItems[position]
-        holder.bind(item)
+        holder.bind(createOnClick(item), item)
     }
 
     inner class HomeViewHolder(val binding: SingleItemBinding):
             RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ResultsItem) {
+        fun bind(listener: View.OnClickListener, item: ResultsItem) {
             binding.item = item
+            binding.clicklistener = listener
             binding.executePendingBindings()
+        }
+    }
+
+    private fun createOnClick(item : ResultsItem): View.OnClickListener {
+        return View.OnClickListener {
+            onClick(item)
         }
     }
 }

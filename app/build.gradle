@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "API_KEY", '"5f421c877faf432abe7914c3cd769204"'
+        buildConfigField "String", "API_KEY", '"5e8efaecfe81493b8ef3fb9aa43eeb02"'
     }
     buildTypes {
         release {
@@ -72,4 +72,7 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
+
+    /*stetho*/
+    implementation 'com.facebook.stetho:stetho:1.5.0'
 }

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.andela.d2_news_application.model.ResultsItem"/>
+            type="com.andela.d2_news_application.model.FoodResults"/>
 
         <variable
             name="date"

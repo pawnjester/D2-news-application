@@ -11,8 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.andela.d2_news_application.R
-import com.andela.d2_news_application.adapter.CommonAdapter
+import com.andela.d2_news_application.adapter.FashionAdapter
+import com.andela.d2_news_application.adapter.HomeAdapter
 import com.andela.d2_news_application.databinding.FragmentFashionBinding
+import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_fashion.*
@@ -29,7 +31,9 @@ class FashionFragment : Fragment() {
     private lateinit var viewModel: SharedViewModel
 
     private val listAdapter by lazy {
-        CommonAdapter()
+        FashionAdapter({
+            goToContactsFragment()
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -63,8 +67,17 @@ class FashionFragment : Fragment() {
     }
 
     private fun initViewModel() {
+        val factory = InjectorUtils
+                .provideSharedViewModelFactory(context!!)
         viewModel = ViewModelProviders
-                .of(activity!!).get(SharedViewModel::class.java)
+                .of(activity!!, factory).get(SharedViewModel::class.java)
+    }
+
+    private fun goToContactsFragment() {
+        activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
+                ?.commit()
     }
 
     private fun getFahionArticles() {
@@ -73,13 +86,11 @@ class FashionFragment : Fragment() {
         if (isConnected) {
             viewModel.getFashion({
                 response, error ->
-                listAdapter.updateList(response?.results!!)
+                listAdapter.updateList(response?: listOf())
                 fashion_progress.dontShow()
 
                 if (error != null) context?.showToast("Error retrieving articles")
             })
-        } else {
-            fashion_container.showSnackbar("No internet Connection")
         }
     }
 

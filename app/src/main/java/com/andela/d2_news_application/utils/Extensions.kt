@@ -55,13 +55,16 @@ fun formatDate(view: TextView?, date: String?) {
 }
 
 @BindingAdapter("imageUrl")
-fun setImageUrl(view: ImageView?, imageUrl: List<MultimediaItem>) {
-    for (selectedImage in imageUrl) {
-        val url = selectedImage.url
-        if (url!!.isEmpty()) {
-            Picasso.get().load(R.drawable.ic_hourglass_empty_black_24dp).into(view)
-        } else {
-            Picasso.get().load(url).fit().into(view)
+fun setImageUrl(view: ImageView?, imageUrl: List<MultimediaItem>?) {
+    val image = imageUrl
+    image?.let {
+        for (selectedImage in it) {
+            val url = selectedImage.url ?: ""
+            if (url.isEmpty()) {
+                Picasso.get().load(R.drawable.ic_hourglass_empty_black_24dp).into(view)
+            } else {
+                Picasso.get().load(url).fit().into(view)
+            }
         }
     }
 }
