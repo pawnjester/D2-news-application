@@ -14,7 +14,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/single_item_contacts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/contact_name"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@{item.phoneNumber}"
+            android:text="@{item.contactNumber}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_name"
             tools:text="082222222222" />

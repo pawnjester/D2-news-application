@@ -55,6 +55,11 @@ class FashionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+        viewModel.fashionData.observeForever({
+            if (it !== null) {
+                listAdapter.updateList(it)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,13 +95,13 @@ class FashionFragment : Fragment() {
         fashion_progress.show()
             viewModel.getFashion({
                 response, error ->
+                viewModel.fashionData.value = response
                 listAdapter.updateList(response?: listOf())
                 fashion_progress.dontShow()
                 swipeContainerFashion.isRefreshing = false
 
                 if (error != null) {
                     context?.showToast("Error retrieving articles")
-                    Log.e("error", error.message)
                 }
             })
     }

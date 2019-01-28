@@ -55,6 +55,13 @@ class FoodFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+
+        viewModel.foodData.observeForever({
+
+            if (it !== null) {
+                listAdapter.updateList(it)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,14 +96,13 @@ class FoodFragment : Fragment() {
         food_progress.show()
         viewModel.getFood({
             response, error ->
+            viewModel.foodData.value = response
             listAdapter.updateList(response ?: listOf())
             food_progress.dontShow()
             swipeContainerFood.isRefreshing = false
 
             if (error != null) {
                 context?.showToast("Error retrieving articles")
-                Log.e("error", error.message)
-
             }
         })
     }

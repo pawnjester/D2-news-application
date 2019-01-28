@@ -56,6 +56,12 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+
+        viewModel.homeData.observeForever({
+            if (it !== null) {
+                listAdapter.updateList(it)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,13 +96,13 @@ class HomeFragment : Fragment() {
         home_progress.show()
         viewModel.getHome({
             response, error ->
+            viewModel.homeData.value = response
             listAdapter.updateList(response?: listOf())
             home_progress.dontShow()
             swipeContainerHome.isRefreshing = false
 
             if (error != null) {
                 context?.showToast("Error retrieving articles")
-                Log.e("error", error.message)
             }
         })
     }
