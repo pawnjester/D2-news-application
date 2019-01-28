@@ -2,8 +2,10 @@ package com.andela.d2_news_application.utils
 
 import android.content.Context
 import android.databinding.BindingAdapter
+import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +24,9 @@ fun View.show(){
 fun View.dontShow() {
     visibility = View.GONE
 }
+
+fun ViewGroup.showSnackbar(message: String) = Snackbar
+        .make(this, message, Snackbar.LENGTH_LONG).show()
 
 
 @BindingAdapter("formattedDate")
@@ -50,13 +55,16 @@ fun formatDate(view: TextView?, date: String?) {
 }
 
 @BindingAdapter("imageUrl")
-fun setImageUrl(view: ImageView?, imageUrl: List<MultimediaItem>) {
-    for (selectedImage in imageUrl) {
-        val url = selectedImage.url
-        if (url!!.isEmpty()) {
-            Picasso.get().load(R.drawable.ic_hourglass_empty_black_24dp).into(view)
-        } else {
-            Picasso.get().load(url).fit().into(view)
+fun setImageUrl(view: ImageView?, imageUrl: List<MultimediaItem>?) {
+    val image = imageUrl
+    image?.let {
+        for (selectedImage in it) {
+            val url = selectedImage.url ?: ""
+            if (url.isEmpty()) {
+                Picasso.get().load(R.drawable.ic_hourglass_empty_black_24dp).into(view)
+            } else {
+                Picasso.get().load(url).fit().into(view)
+            }
         }
     }
 }

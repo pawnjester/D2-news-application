@@ -11,11 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.andela.d2_news_application.R
-import com.andela.d2_news_application.adapter.CommonAdapter
+import com.andela.d2_news_application.adapter.FoodAdapter
+import com.andela.d2_news_application.adapter.HomeAdapter
 import com.andela.d2_news_application.databinding.FragmentFoodBinding
-import com.andela.d2_news_application.utils.dontShow
-import com.andela.d2_news_application.utils.show
-import com.andela.d2_news_application.utils.showToast
+import com.andela.d2_news_application.ui.contacts.ContactsFragment
+import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_food.*
 
@@ -30,7 +30,9 @@ class FoodFragment : Fragment() {
 
 
     private val listAdapter by lazy {
-        CommonAdapter()
+        FoodAdapter({
+            goToContactsFragment()
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -64,19 +66,31 @@ class FoodFragment : Fragment() {
     }
 
     private fun initViewModel() {
+        val factory = InjectorUtils
+                .provideSharedViewModelFactory(context!!)
         viewModel = ViewModelProviders
-                .of(activity!!).get(SharedViewModel::class.java)
+                .of(activity!!, factory).get(SharedViewModel::class.java)
+    }
+
+    private fun goToContactsFragment() {
+        activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
+                ?.commit()
     }
 
     private fun getFoodArticles() {
         food_progress.show()
-        viewModel.getFoodData({
-            response, error ->
-            listAdapter.updateList(response?.results!!)
-            food_progress.dontShow()
+        val isConnected = CheckConnection(activity!!).isConnected()
+        if (isConnected) {
+            viewModel.getFood({
+                response, error ->
+                listAdapter.updateList(response ?: listOf())
+                food_progress.dontShow()
 
-            if (error != null) context?.showToast("Error retrieving articles")
-        })
+                if (error != null) context?.showToast("Error retrieving articles")
+            })
+        }
     }
 
     override fun onDestroy() {

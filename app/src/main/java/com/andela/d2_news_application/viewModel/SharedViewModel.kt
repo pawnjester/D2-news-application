@@ -1,61 +1,89 @@
 package com.andela.d2_news_application.viewModel
 
 import android.arch.lifecycle.ViewModel
-import com.andela.d2_news_application.BuildConfig
-import com.andela.d2_news_application.model.ApiResponse
+import android.util.Log
+import com.andela.d2_news_application.data.ResultRepository
+import com.andela.d2_news_application.data.ResultRepositoryImpl
+import com.andela.d2_news_application.model.FashionResults
+import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
-import com.andela.d2_news_application.network.ApiFactory
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
-class SharedViewModel: ViewModel() {
+class SharedViewModel(val repository: ResultRepository): ViewModel() {
 
-    val apikey = BuildConfig.API_KEY
-    private val api = ApiFactory(apikey).apiService
 
     var disposable: Disposable? = null
 
+    companion object {
+        val SECTION =  "section"
+        val TITLE = "title"
+        val PUBLISHED_DATE = "publishedDate"
+        val URL = "url"
+        val CREATED_DATE = "createdAt"
+        val UPDATED_DATE = "updatedAt"
+        val ID = "id"
+        val NEWS_TYPE = "newsType"
 
-    fun getHomeData(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit) {
-       disposable = api.getHomeArticles()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-               .subscribe({
-                   home ->
-                   onDataObtained(home, null)
-               }, { error ->
-                   onDataObtained(null, error)
-               })
-
+        val ROWS = arrayOf(SECTION, TITLE, PUBLISHED_DATE,
+                URL, CREATED_DATE, UPDATED_DATE)
     }
 
-    fun getFoodData(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit) {
-        disposable = api.getFood()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    home ->
-                    onDataObtained(home, null)
-                }, { error ->
-                    onDataObtained(null, error)
-                })
-    }
 
-    fun getFashionData(onDataObtained: (ApiResponse<List<ResultsItem>>?, Throwable?) -> Unit) {
-        disposable = api.getFashion()
+
+    fun getHome(onDataObtained: (List<ResultsItem>?, Throwable?) -> Unit)  {
+
+        disposable = repository.getHomeNews()
+                .debounce(400, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    home ->
-                    onDataObtained(home, null)
-                }, { error ->
-                    onDataObtained(null, error)
+                    Log.e("datacheck",it.toString())
+                    onDataObtained(it, null)
+                },  {
+                    onDataObtained(null, it)
                 })
     }
+
+    fun getFood(onDataObtained: (List<FoodResults>?, Throwable?) -> Unit) {
+
+        disposable = repository.getFoodNews()
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                    .subscribe({
+                    Log.e("datacheck",it.toString())
+                    onDataObtained(it, null)
+                },  {
+                    onDataObtained(null, it)
+                })
+    }
+
+    fun getFashion(onDataObtained: (List<FashionResults>?, Throwable?) -> Unit) {
+
+        disposable = repository.getFashionNews()
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    onDataObtained(it, null)
+                    Log.e("datacheck",it.toString())
+
+                },  {
+                    onDataObtained(null, it)
+                })
+
+    }
+
 
     fun clearDisposables() = disposable?.dispose()
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
+    }
 
 
 }
