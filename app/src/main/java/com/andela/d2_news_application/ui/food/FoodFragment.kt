@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class FoodFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getFoodArticles()
+        initSwipe()
     }
 
     companion object {
@@ -79,18 +81,24 @@ class FoodFragment : Fragment() {
                 ?.commit()
     }
 
+    private fun initSwipe() {
+        swipeContainerFood.setOnRefreshListener { getFoodArticles() }
+    }
+
     private fun getFoodArticles() {
         food_progress.show()
-        val isConnected = CheckConnection(activity!!).isConnected()
-        if (isConnected) {
-            viewModel.getFood({
-                response, error ->
-                listAdapter.updateList(response ?: listOf())
-                food_progress.dontShow()
+        viewModel.getFood({
+            response, error ->
+            listAdapter.updateList(response ?: listOf())
+            food_progress.dontShow()
+            swipeContainerFood.isRefreshing = false
 
-                if (error != null) context?.showToast("Error retrieving articles")
-            })
-        }
+            if (error != null) {
+                context?.showToast("Error retrieving articles")
+                Log.e("error", error.message)
+
+            }
+        })
     }
 
     override fun onDestroy() {
