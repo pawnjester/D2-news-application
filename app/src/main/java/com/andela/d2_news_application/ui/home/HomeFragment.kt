@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
 
     private val listAdapter by lazy {
         HomeAdapter({
+            viewModel.homeItem = it
             goToContactsFragment()
         })
     }

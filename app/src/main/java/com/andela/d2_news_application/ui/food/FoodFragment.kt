@@ -33,6 +33,7 @@ class FoodFragment : Fragment() {
     private val listAdapter by lazy {
         FoodAdapter({
             goToContactsFragment()
+            viewModel.foodItem = it
         })
     }
 

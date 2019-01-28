@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.andela.d2_news_application.data.ResultRepository
 import com.andela.d2_news_application.data.ResultRepositoryImpl
+import com.andela.d2_news_application.model.ContactsModel
 import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
@@ -29,6 +30,11 @@ class SharedViewModel(val repository: ResultRepository): ViewModel() {
     val foodData by lazy {
         MutableLiveData<List<FoodResults>>()
     }
+
+    var foodItem: FoodResults ? = null
+    var homeItem: ResultsItem ? = null
+    var fashionItem: FashionResults ? = null
+    var contactItem: ContactsModel ? = null
 
     companion object {
         val SECTION =  "section"

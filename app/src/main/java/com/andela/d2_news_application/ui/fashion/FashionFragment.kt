@@ -34,6 +34,7 @@ class FashionFragment : Fragment() {
     private val listAdapter by lazy {
         FashionAdapter({
             goToContactsFragment()
+            viewModel.fashionItem = it
         })
     }
 

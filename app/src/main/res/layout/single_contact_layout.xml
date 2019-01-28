@@ -9,12 +9,17 @@
             name="item"
             type="com.andela.d2_news_application.model.ContactsModel"/>
 
+        <variable
+            name="clicklistener"
+            type="android.view.View.OnClickListener"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/single_item_contacts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{clicklistener}">
 
         <TextView
             android:id="@+id/contact_name"
