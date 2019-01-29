@@ -1,5 +1,6 @@
 package com.andela.d2_news_application.data.local
 
+import android.util.Log
 import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
@@ -15,6 +16,7 @@ class ResultLocalRepositoryImpl private constructor(val dao: ArticlesDao): Resul
     }
 
     override fun getResultsFromFood(): Observable<List<FoodResults>> {
+        Log.e(">>>", ">>>")
         return Observable.fromCallable<List<FoodResults>>({
             dao.selectAllFromFood()
         })
