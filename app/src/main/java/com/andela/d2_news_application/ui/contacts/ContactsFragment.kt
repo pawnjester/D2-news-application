@@ -46,7 +46,8 @@ class ContactsFragment : Fragment() {
 
     private val listAdapter by lazy {
         ContactsAdapter({
-            sendSms(viewModel.contactItem?.contactNumber?:"",
+            viewModel.contactItem = it
+            shareMessage(viewModel.contactItem?.contactName?:"",
                     viewModel.homeItem?.url?: "")
         })
     }
@@ -96,23 +97,15 @@ class ContactsFragment : Fragment() {
         }
     }
 
-    private fun sendSms(person: String, message: String) {
-//        val uri = Uri.parse("smsto:${number}")
-//        val intent = Intent(Intent.ACTION_SENDTO, uri).apply {
-//            putExtra("sms_body", message)
-//        }
-//        startActivity(intent)
-        val sms = SmsManager.getDefault()
-//        sms.sendTextMessage(person, null,
-//                message,
-//                null,
-//                null)
+    private fun shareMessage(person: String, message: String) {
 
-        val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-        sharingIntent.type = "text/plain"
-         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject here")
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message)
-        startActivity(sharingIntent)
+        Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject here")
+            putExtra(android.content.Intent.EXTRA_TEXT,
+                    "${person} wants you to view this message: ${message}")
+            startActivity(this)
+        }
     }
 
     private fun initViewModel() {
