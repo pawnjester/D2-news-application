@@ -1,7 +1,7 @@
 package com.andela.d2_news_application.model
 
-class ContactsModel(
-        val contactId: String,
-        val phoneNumber: String,
-        val contactName: String
+data class ContactsModel(
+        var contactId: String? = "",
+        var contactNumber: String? = "",
+        var contactName: String? = ""
 )

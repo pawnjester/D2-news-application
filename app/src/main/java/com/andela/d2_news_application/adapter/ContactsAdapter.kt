@@ -3,12 +3,14 @@ package com.andela.d2_news_application.adapter
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.databinding.SingleContactLayoutBinding
 import com.andela.d2_news_application.model.ContactsModel
 
-class ContactsAdapter: RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>() {
+class ContactsAdapter(val onClick: (item: ContactsModel) -> Unit)
+    : RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>() {
 
     private var contacts = mutableListOf<ContactsModel>()
 
@@ -31,14 +33,22 @@ class ContactsAdapter: RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder>(
 
     override fun onBindViewHolder(holder: ContactsViewHolder, position: Int) {
         val item = contacts[position]
-        holder.bind(item)
+        holder.bind(createOnClick(item), item)
     }
 
-    inner class ContactsViewHolder(val binding: SingleContactLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ContactsViewHolder(
+            val binding: SingleContactLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ContactsModel) {
+        fun bind(listener: View.OnClickListener, item: ContactsModel) {
             binding.item = item
+            binding.clicklistener = listener
             binding.executePendingBindings()
+        }
+    }
+
+    private fun createOnClick(item: ContactsModel): View.OnClickListener {
+        return View.OnClickListener {
+            onClick(item)
         }
     }
 }

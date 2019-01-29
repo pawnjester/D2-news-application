@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class HomeFragment : Fragment() {
 
     private val listAdapter by lazy {
         HomeAdapter({
+            viewModel.homeItem = it
             goToContactsFragment()
         })
     }
@@ -55,15 +57,26 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+
+        viewModel.homeData.observeForever({
+            if (it !== null) {
+                listAdapter.updateList(it)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getHomeArticles()
+        initSwipe()
     }
 
     companion object {
         fun newInstance() = HomeFragment()
+    }
+
+    private fun initSwipe() {
+        swipeContainerHome.setOnRefreshListener { getHomeArticles() }
     }
 
     private fun initViewModel() {
@@ -82,16 +95,17 @@ class HomeFragment : Fragment() {
 
     private fun getHomeArticles() {
         home_progress.show()
-        val isConnected = CheckConnection(activity!!).isConnected()
-        if (isConnected){
-            viewModel.getHome({
-                response, error ->
-                listAdapter.updateList(response?: listOf())
-                home_progress.dontShow()
+        viewModel.getHome({
+            response, error ->
+            viewModel.homeData.value = response
+            listAdapter.updateList(response?: listOf())
+            home_progress.dontShow()
+            swipeContainerHome.isRefreshing = false
 
-                if (error != null) context?.showToast("Error retrieving articles")
-            })
-        }
+            if (error != null) {
+                context?.showToast("Error retrieving articles")
+            }
+        })
     }
 
     override fun onDestroy() {

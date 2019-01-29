@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class FashionFragment : Fragment() {
     private val listAdapter by lazy {
         FashionAdapter({
             goToContactsFragment()
+            viewModel.fashionItem = it
         })
     }
 
@@ -54,16 +56,26 @@ class FashionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewModel()
+        viewModel.fashionData.observeForever({
+            if (it !== null) {
+                listAdapter.updateList(it)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getFahionArticles()
+        initSwipe()
     }
 
 
     companion object {
         fun newInstance() = FashionFragment()
+    }
+
+    private fun initSwipe() {
+        swipeContainerFashion.setOnRefreshListener { getFahionArticles() }
     }
 
     private fun initViewModel() {
@@ -82,16 +94,17 @@ class FashionFragment : Fragment() {
 
     private fun getFahionArticles() {
         fashion_progress.show()
-        val isConnected = CheckConnection(activity!!).isConnected()
-        if (isConnected) {
             viewModel.getFashion({
                 response, error ->
+                viewModel.fashionData.value = response
                 listAdapter.updateList(response?: listOf())
                 fashion_progress.dontShow()
+                swipeContainerFashion.isRefreshing = false
 
-                if (error != null) context?.showToast("Error retrieving articles")
+                if (error != null) {
+                    context?.showToast("Error retrieving articles")
+                }
             })
-        }
     }
 
     override fun onDestroy() {
