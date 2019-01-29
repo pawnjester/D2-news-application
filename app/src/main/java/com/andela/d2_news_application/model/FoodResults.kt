@@ -37,7 +37,7 @@ data class FoodResults (
 
         @Ignore @SerializedName("material_type_facet") val materialTypeFacet: String? = null,
 
-        @Ignore @SerializedName("multimedia") val multimedia: List<MultimediaItem?>? = null,
+        @ColumnInfo(name = "multimedia") @SerializedName("multimedia") var multimedia: List<MultimediaItem?>? = null,
 
         @Ignore @SerializedName("geo_facet") val geoFacet: List<Any?>? = null,
 

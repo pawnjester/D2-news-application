@@ -18,6 +18,7 @@ import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
 /**
@@ -97,10 +98,16 @@ class HomeFragment : Fragment() {
         home_progress.show()
         viewModel.getHome({
             response, error ->
-            viewModel.homeData.value = response
-            listAdapter.updateList(response?: listOf())
-            home_progress.dontShow()
-            swipeContainerHome.isRefreshing = false
+            if (response!!.isNotEmpty()) {
+                viewModel.homeData.value = response
+                listAdapter.updateList(response)
+                home_progress.dontShow()
+                swipeContainerHome.isRefreshing = false
+                binding.noArticles.dontShow()
+            }else {
+                binding.noArticles.show()
+                home_progress.dontShow()
+            }
 
             if (error != null) {
                 context?.showToast("Error retrieving articles")

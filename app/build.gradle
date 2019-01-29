@@ -27,15 +27,6 @@ android {
         enabled = true
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-
-    }
 }
 
 dependencies {
@@ -79,9 +70,6 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
     implementation "android.arch.persistence.room:rxjava2:1.1.1"
-
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
 
     /*stetho*/
     implementation 'com.facebook.stetho:stetho:1.5.0'

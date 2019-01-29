@@ -55,11 +55,9 @@ class SharedViewModel(val repository: ResultRepository): ViewModel() {
     fun getHome(onDataObtained: (List<ResultsItem>?, Throwable?) -> Unit)  {
 
         disposable = repository.getHomeNews()
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    Log.e("datacheck",it.toString())
                     onDataObtained(it, null)
                 },  {
                     onDataObtained(null, it)
@@ -69,11 +67,9 @@ class SharedViewModel(val repository: ResultRepository): ViewModel() {
     fun getFood(onDataObtained: (List<FoodResults>?, Throwable?) -> Unit) {
 
         disposable = repository.getFoodNews()
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                     .subscribe({
-                    Log.e("datacheck",it.toString())
                     onDataObtained(it, null)
                 },  {
                     onDataObtained(null, it)
@@ -83,13 +79,10 @@ class SharedViewModel(val repository: ResultRepository): ViewModel() {
     fun getFashion(onDataObtained: (List<FashionResults>?, Throwable?) -> Unit) {
 
         disposable = repository.getFashionNews()
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     onDataObtained(it, null)
-                    Log.e("datacheck",it.toString())
-
                 },  {
                     onDataObtained(null, it)
                 })
@@ -98,11 +91,5 @@ class SharedViewModel(val repository: ResultRepository): ViewModel() {
 
 
     fun clearDisposables() = disposable?.dispose()
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable?.dispose()
-    }
-
 
 }
