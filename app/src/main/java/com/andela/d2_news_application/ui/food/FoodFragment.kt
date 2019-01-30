@@ -97,10 +97,16 @@ class FoodFragment : Fragment() {
         food_progress.show()
         viewModel.getFood({
             response, error ->
-            viewModel.foodData.value = response
-            listAdapter.updateList(response ?: listOf())
-            food_progress.dontShow()
-            swipeContainerFood.isRefreshing = false
+            if (response!!.isNotEmpty()) {
+                viewModel.foodData.value = response
+                listAdapter.updateList(response ?: listOf())
+                food_progress.dontShow()
+                swipeContainerFood.isRefreshing = false
+                binding.noArticles.dontShow()
+            } else {
+                binding.noArticles.show()
+                food_progress.dontShow()
+            }
 
             if (error != null) {
                 context?.showToast("Error retrieving articles")

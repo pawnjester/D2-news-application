@@ -16,7 +16,6 @@ class ResultLocalRepositoryImpl private constructor(val dao: ArticlesDao): Resul
     }
 
     override fun getResultsFromFood(): Observable<List<FoodResults>> {
-        Log.e(">>>", ">>>")
         return Observable.fromCallable<List<FoodResults>>({
             dao.selectAllFromFood()
         })

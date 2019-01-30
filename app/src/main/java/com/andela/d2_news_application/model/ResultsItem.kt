@@ -1,12 +1,11 @@
 package com.andela.d2_news_application.model
 
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Ignore
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.*
 import android.provider.BaseColumns
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 
 @Entity(tableName = "articles")
 data class ResultsItem(
@@ -39,7 +38,7 @@ data class ResultsItem(
 
         @Ignore @SerializedName("material_type_facet") val materialTypeFacet: String? = null,
 
-        @Ignore @SerializedName("multimedia") val multimedia: List<MultimediaItem?>? = null,
+        @ColumnInfo(name = "multimedia") @SerializedName("multimedia") var multimedia: List<MultimediaItem?>? = null,
 
         @Ignore @SerializedName("geo_facet") val geoFacet: List<Any?>? = null,
 
@@ -53,3 +52,4 @@ data class ResultsItem(
 
         @Ignore @SerializedName("kicker") val kicker: String? = null
 )
+

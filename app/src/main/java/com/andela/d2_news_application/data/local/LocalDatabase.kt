@@ -1,14 +1,14 @@
 package com.andela.d2_news_application.data.local
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.*
 import android.content.Context
+import com.andela.d2_news_application.model.Converters
 import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
 
 @Database(entities = [ResultsItem::class, FoodResults::class, FashionResults::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class LocalDatabase: RoomDatabase() {
 
     abstract fun articles(): ArticlesDao

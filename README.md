@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/pawnjester/D2-news-application.svg?style=svg)](https://circleci.com/gh/pawnjester/D2-news-application/tree/develop)
 # News Application
 This is an application that consumes Newyork times API. This application is built using Kotlin and MVVM architecture
 
@@ -12,7 +13,9 @@ This is an application that consumes Newyork times API. This application is buil
 
 # App Features
 1. Users can view the top stories from categories like headline, fashion and food from the Newyork times
-2. Users can share the stories
+2. Users can share the personalized message with their contacts
+3. Offline reading.
+
 
 ## Libraries Used
 - Use [Retrofit](https://square.github.io/retrofit/) for networking

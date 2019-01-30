@@ -96,10 +96,18 @@ class FashionFragment : Fragment() {
         fashion_progress.show()
             viewModel.getFashion({
                 response, error ->
-                viewModel.fashionData.value = response
-                listAdapter.updateList(response?: listOf())
-                fashion_progress.dontShow()
-                swipeContainerFashion.isRefreshing = false
+                response?.let {
+                    if (response.isNotEmpty()){
+                        viewModel.fashionData.value = response
+                        listAdapter.updateList(response)
+                        fashion_progress.dontShow()
+                        swipeContainerFashion.isRefreshing = false
+                        binding.noArticles.dontShow()
+                    }else{
+                        binding.noArticles.show()
+                        fashion_progress.dontShow()
+                    }
+                }
 
                 if (error != null) {
                     context?.showToast("Error retrieving articles")

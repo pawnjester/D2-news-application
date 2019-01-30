@@ -6,10 +6,16 @@ jobs:
       - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+
+    license_agreement: &license_agreement
+      run:
+        name: Accept license
+        command: yes | sdkmanager --update || exit 0
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - *license_agreement
       - run:
           name: Download Dependencies
           command: |
