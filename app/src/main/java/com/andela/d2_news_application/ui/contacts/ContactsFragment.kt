@@ -98,7 +98,7 @@ class ContactsFragment : Fragment() {
     }
 
     private fun shareMessage(person: String, message: String) {
-
+        Log.e("make", "sense")
         Intent(android.content.Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject here")
