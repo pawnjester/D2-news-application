@@ -23,6 +23,8 @@ class SharedViewModel(val repository: ResultRepository): ViewModel() {
         MutableLiveData<List<ResultsItem>>()
     }
 
+//    val viewCommands =
+
     val fashionData by lazy {
         MutableLiveData<List<FashionResults>>()
     }
