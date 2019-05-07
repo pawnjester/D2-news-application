@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import com.andela.d2_news_application.R
+import com.andela.d2_news_application.application.BaseApplication
 import com.andela.d2_news_application.databinding.ActivityMainBinding
 import com.andela.d2_news_application.ui.fashion.FashionFragment
 import com.andela.d2_news_application.ui.food.FoodFragment
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         Stetho.initializeWithDefaults(this)
+        (application as BaseApplication).appComponent.inject(this)
 
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

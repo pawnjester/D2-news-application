@@ -26,10 +26,7 @@ import com.andela.d2_news_application.utils.InjectorUtils
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import android.databinding.adapters.TextViewBindingAdapter.setText
 import android.provider.ContactsContract.CommonDataKinds.Phone
-
-
-
-
+import javax.inject.Inject
 
 
 /**
@@ -41,6 +38,9 @@ class ContactsFragment : Fragment() {
     private lateinit var binding: FragmentContactsBinding
 
     private lateinit var viewModel: SharedViewModel
+
+    @Inject
+    lateinit var injector: InjectorUtils
 
     val PERMISSIONS_REQUEST_READ_CONTACTS = 200
 
@@ -108,7 +108,7 @@ class ContactsFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        val factory = InjectorUtils
+        val factory = injector
                 .provideSharedViewModelFactory(context!!)
         viewModel = ViewModelProviders
                 .of(activity!!, factory).get(SharedViewModel::class.java)

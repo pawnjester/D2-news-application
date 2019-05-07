@@ -6,11 +6,15 @@ import com.andela.d2_news_application.data.local.LocalDatabase
 import com.andela.d2_news_application.data.local.ResultLocalRepositoryImpl
 import com.andela.d2_news_application.data.remote.ResultRemoteRespositoryImpl
 import com.andela.d2_news_application.ui.ViewModelFactory
+import javax.inject.Inject
 
-object InjectorUtils {
+class InjectorUtils {
+
+    @Inject
+    lateinit var repoLocal : ResultLocalRepositoryImpl
 
     private fun getLocalRepository(app: Context): ResultLocalRepositoryImpl {
-        return ResultLocalRepositoryImpl.getInstance(LocalDatabase.getInstance(app).articles())
+        return repoLocal
     }
 
     private fun getRemoteRepository() : ResultRemoteRespositoryImpl {

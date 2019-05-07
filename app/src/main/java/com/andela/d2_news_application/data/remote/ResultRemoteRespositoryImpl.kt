@@ -5,13 +5,18 @@ import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
 import com.andela.d2_news_application.network.ApiFactory
+import com.andela.d2_news_application.network.ApiService
 import io.reactivex.Observable
+import javax.inject.Inject
 
 class ResultRemoteRespositoryImpl: ResultRemoteRepository {
 
 
-    val apikey = BuildConfig.API_KEY
-    private val api = ApiFactory(apikey).apiService
+//    val apikey = BuildConfig.API_KEY
+//    private val api = ApiFactory(apikey).apiService
+
+    @Inject
+    lateinit var api: ApiService
 
 
     override fun getHomeFromRemote(): Observable<List<ResultsItem>> {

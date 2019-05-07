@@ -6,8 +6,9 @@ import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class ResultRepositoryImpl(
+class ResultRepositoryImpl @Inject constructor(
         val localRepo: ResultLocalRepositoryImpl,
         val remoteRepo: ResultRemoteRespositoryImpl) : ResultRepository {
 

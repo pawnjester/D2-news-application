@@ -3,6 +3,7 @@ package com.andela.d2_news_application.di.component
 import com.andela.d2_news_application.di.module.AppModule
 import com.andela.d2_news_application.di.module.DatabaseModule
 import com.andela.d2_news_application.di.module.NetworkModule
+import com.andela.d2_news_application.ui.MainActivity
 import com.andela.d2_news_application.ui.fashion.FashionFragment
 import com.andela.d2_news_application.ui.food.FoodFragment
 import com.andela.d2_news_application.ui.home.HomeFragment
@@ -17,6 +18,18 @@ interface AppComponent {
 
 
     fun inject(viewModel: SharedViewModel)
-//    fun inject (home: HomeFragment)
+    fun inject (home: MainActivity)
 //    fun inject (fashionFragment: FashionFragment)
+//    fun inject(food: FoodFragment)
+
+    @Component.Builder
+    interface Builder {
+        fun build(): AppComponent
+
+        fun networkModule(networkModule: NetworkModule): Builder
+
+        fun databaseModule(databaseModule: DatabaseModule): Builder
+
+        fun appModule(appModule: AppModule) :Builder
+    }
 }

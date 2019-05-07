@@ -19,6 +19,7 @@ import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_food.*
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +29,8 @@ class FoodFragment : Fragment() {
 
     private lateinit var binding: FragmentFoodBinding
     private lateinit var viewModel: SharedViewModel
+    @Inject
+    lateinit var injector: InjectorUtils
 
 
     private val listAdapter by lazy {
@@ -76,7 +79,7 @@ class FoodFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        val factory = InjectorUtils
+        val factory = injector
                 .provideSharedViewModelFactory(context!!)
         viewModel = ViewModelProviders
                 .of(activity!!, factory).get(SharedViewModel::class.java)

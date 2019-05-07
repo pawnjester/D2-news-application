@@ -13,12 +13,14 @@ import android.view.ViewGroup
 
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.HomeAdapter
+import com.andela.d2_news_application.application.BaseApplication
 import com.andela.d2_news_application.databinding.FragmentHomeBinding
 import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import javax.inject.Inject
 
 
 /**
@@ -29,6 +31,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: SharedViewModel
+
+    @Inject
+    lateinit var injectorUtils: InjectorUtils
 
     private val listAdapter by lazy {
         HomeAdapter({
@@ -81,7 +86,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        val factory = InjectorUtils
+        val factory = injectorUtils
                 .provideSharedViewModelFactory(context!!)
         viewModel = ViewModelProviders
                 .of(activity!!, factory).get(SharedViewModel::class.java)
