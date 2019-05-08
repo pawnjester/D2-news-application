@@ -7,6 +7,8 @@ import com.andela.d2_news_application.data.ResultRepository
 import com.andela.d2_news_application.data.ResultRepositoryImpl
 import com.andela.d2_news_application.di.component.AppComponent
 import com.andela.d2_news_application.di.component.DaggerAppComponent
+import com.andela.d2_news_application.di.module.AppModule
+import com.andela.d2_news_application.di.module.DatabaseModule
 import com.andela.d2_news_application.di.module.NetworkModule
 import com.andela.d2_news_application.model.ContactsModel
 import com.andela.d2_news_application.model.FashionResults
@@ -23,24 +25,10 @@ class SharedViewModel @Inject constructor(val repository: ResultRepository): Vie
 
     var disposable: Disposable? = null
 
+
     val homeData by lazy {
         MutableLiveData<List<ResultsItem>>()
     }
-
-    private val injector: AppComponent = DaggerAppComponent
-            .builder()
-            .networkModule(NetworkModule)
-            .build()
-
-    init {
-        inject()
-    }
-
-    private fun inject() {
-        injector.inject(this)
-    }
-
-//    val viewCommands =
 
     val fashionData by lazy {
         MutableLiveData<List<FashionResults>>()

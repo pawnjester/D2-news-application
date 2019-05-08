@@ -7,6 +7,7 @@ import com.andela.d2_news_application.data.ResultRepositoryImpl
 import com.andela.d2_news_application.data.local.ArticlesDao
 import com.andela.d2_news_application.data.local.ResultLocalRepositoryImpl
 import com.andela.d2_news_application.data.remote.ResultRemoteRespositoryImpl
+import com.andela.d2_news_application.network.ApiService
 import com.andela.d2_news_application.utils.InjectorUtils
 import dagger.Module
 import dagger.Provides
@@ -25,13 +26,13 @@ class AppModule(val app: Application) {
     @Provides @Singleton fun providesLocalRespository(dao: ArticlesDao):
             ResultLocalRepositoryImpl =  ResultLocalRepositoryImpl(dao)
 
-    @Provides fun providesRemoteRepository():
-            ResultRemoteRespositoryImpl = ResultRemoteRespositoryImpl()
+    @Provides fun providesRemoteRepository(api: ApiService):
+            ResultRemoteRespositoryImpl = ResultRemoteRespositoryImpl(api)
 
     @Provides fun provideRepository(localRepositoryImpl: ResultLocalRepositoryImpl,
                                     remoteRespositoryImpl: ResultRemoteRespositoryImpl) :
             ResultRepositoryImpl = ResultRepositoryImpl(localRepositoryImpl, remoteRespositoryImpl)
 
-    @Provides @Singleton fun provideInjectorUtils(): InjectorUtils = InjectorUtils()
+    @Provides @Singleton fun provideInjectorUtils(dao: ArticlesDao): InjectorUtils = InjectorUtils(dao)
 
 }

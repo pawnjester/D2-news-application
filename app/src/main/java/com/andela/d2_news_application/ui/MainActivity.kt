@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         Stetho.initializeWithDefaults(this)
-        (application as BaseApplication).appComponent.inject(this)
+        BaseApplication.appComponent.inject(this)
 
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.HomeAdapter
 import com.andela.d2_news_application.application.BaseApplication
+import com.andela.d2_news_application.data.ResultRepositoryImpl
 import com.andela.d2_news_application.databinding.FragmentHomeBinding
 import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
@@ -34,6 +35,9 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var injectorUtils: InjectorUtils
+
+    @Inject
+    lateinit var result: ResultRepositoryImpl
 
     private val listAdapter by lazy {
         HomeAdapter({
@@ -62,6 +66,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        BaseApplication.appComponent.inject(this)
         initViewModel()
 
         viewModel.homeData.observeForever({
@@ -87,7 +92,7 @@ class HomeFragment : Fragment() {
 
     private fun initViewModel() {
         val factory = injectorUtils
-                .provideSharedViewModelFactory(context!!)
+                .provideSharedViewModelFactory(result)
         viewModel = ViewModelProviders
                 .of(activity!!, factory).get(SharedViewModel::class.java)
     }

@@ -9,7 +9,10 @@ import com.andela.d2_news_application.di.module.NetworkModule
 
 class BaseApplication: Application() {
 
+    companion object {
+
     lateinit var appComponent: AppComponent
+    }
 
     override fun onCreate() {
         super.onCreate()
