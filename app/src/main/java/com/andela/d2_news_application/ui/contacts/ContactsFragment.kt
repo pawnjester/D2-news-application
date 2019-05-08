@@ -26,10 +26,9 @@ import com.andela.d2_news_application.utils.InjectorUtils
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import android.databinding.adapters.TextViewBindingAdapter.setText
 import android.provider.ContactsContract.CommonDataKinds.Phone
-
-
-
-
+import com.andela.d2_news_application.application.BaseApplication
+import com.andela.d2_news_application.data.ResultRepositoryImpl
+import javax.inject.Inject
 
 
 /**
@@ -41,6 +40,12 @@ class ContactsFragment : Fragment() {
     private lateinit var binding: FragmentContactsBinding
 
     private lateinit var viewModel: SharedViewModel
+
+    @Inject
+    lateinit var injector: InjectorUtils
+
+    @Inject
+    lateinit var result: ResultRepositoryImpl
 
     val PERMISSIONS_REQUEST_READ_CONTACTS = 200
 
@@ -65,6 +70,7 @@ class ContactsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        BaseApplication.appComponent.inject(this)
         initViewModel()
     }
 
@@ -98,7 +104,6 @@ class ContactsFragment : Fragment() {
     }
 
     private fun shareMessage(person: String, message: String) {
-
         Intent(android.content.Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject here")
@@ -109,8 +114,8 @@ class ContactsFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        val factory = InjectorUtils
-                .provideSharedViewModelFactory(context!!)
+        val factory = injector
+                .provideSharedViewModelFactory(result)
         viewModel = ViewModelProviders
                 .of(activity!!, factory).get(SharedViewModel::class.java)
     }

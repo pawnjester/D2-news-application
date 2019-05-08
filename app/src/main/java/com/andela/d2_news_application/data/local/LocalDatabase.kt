@@ -13,20 +13,20 @@ abstract class LocalDatabase: RoomDatabase() {
 
     abstract fun articles(): ArticlesDao
 
-    companion object {
-        private var instance: LocalDatabase? = null
-
-        fun getInstance(context: Context): LocalDatabase {
-            if (instance == null) {
-                synchronized(LocalDatabase::class) {
-                    instance = Room.databaseBuilder(context.applicationContext,
-                            LocalDatabase::class.java, "Lms-Database")
-                            .allowMainThreadQueries()
-                            .build()
-                }
-                return instance!!
-            }
-            return instance!!
-        }
-    }
+//    companion object {
+//        private var instance: LocalDatabase? = null
+//
+//        fun getInstance(context: Context): LocalDatabase {
+//            if (instance == null) {
+//                synchronized(LocalDatabase::class) {
+//                    instance = Room.databaseBuilder(context.applicationContext,
+//                            LocalDatabase::class.java, "Lms-Database")
+//                            .allowMainThreadQueries()
+//                            .build()
+//                }
+//                return instance!!
+//            }
+//            return instance!!
+//        }
+//    }
 }

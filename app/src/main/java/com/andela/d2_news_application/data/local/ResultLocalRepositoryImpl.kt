@@ -5,8 +5,9 @@ import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
 import io.reactivex.Observable
+import javax.inject.Inject
 
-class ResultLocalRepositoryImpl private constructor(val dao: ArticlesDao): ResultLocalRepository {
+class ResultLocalRepositoryImpl @Inject constructor(val dao: ArticlesDao): ResultLocalRepository {
 
 
     override fun getResultsFromHome(): Observable<List<ResultsItem>> {
@@ -39,15 +40,15 @@ class ResultLocalRepositoryImpl private constructor(val dao: ArticlesDao): Resul
         dao.insertFoodNews(users)
     }
 
-    companion object {
-        private var instance: ResultLocalRepositoryImpl? = null
-
-        fun getInstance(dao: ArticlesDao) =
-                instance ?: synchronized(this) {
-                    instance ?: ResultLocalRepositoryImpl(dao)
-                            .also { instance = it }
-                }
-    }
+//    companion object {
+//        private var instance: ResultLocalRepositoryImpl? = null
+//
+//        fun getInstance(dao: ArticlesDao) =
+//                instance ?: synchronized(this) {
+//                    instance ?: ResultLocalRepositoryImpl(dao)
+//                            .also { instance = it }
+//                }
+//    }
 
     override fun getAllResults(newsType: String): Observable<List<ResultsItem>> {
         return Observable.fromCallable<List<ResultsItem>>({

@@ -20,9 +20,6 @@ interface ApiService {
 
     @GET("home.json")
     fun getHomeArticles(): Observable<ApiResponse<List<ResultsItem>>>
-//
-//    @GET("home.json")
-//    fun getHomeArticles2(): Deferred<ApiResponse<List<ResultsItem>>>
 
     @GET("fashion.json")
     fun getFashion(): Observable<ApiResponse<List<FashionResults>>>

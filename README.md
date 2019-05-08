@@ -25,7 +25,7 @@ This application was written following the MVVM (Model-view-viewModel) architech
 it enables us take advantage of the Google architechure components/ [Android Jetpack](https://developer.android.com/jetpack/docs/guide) components like the viewModel, Room,
 livedata and Databinding which was all evident in this application. I also made use of other libraries to ensure a seemless flow. They are listed below.
 
-The application follows best practices such as the repository pattern for abstracting classes.
+The application follows best practices such as the repository pattern for abstracting classes and Dagger 2 For Dependency Injection.
 
 ## Libraries/Tools Used
 - Use [Retrofit](https://square.github.io/retrofit/) for networking
@@ -34,6 +34,7 @@ The application follows best practices such as the repository pattern for abstra
 - Use [Room](https://developer.android.com/topic/libraries/architecture/room) for storing data
 - Use [Content Provider](https://developer.android.com/guide/topics/providers/contacts-provider) to allow the user view the contacts on a phone to allow them share a message
 - Use [Databinding](https://developer.android.com/topic/libraries/data-binding/)
+- Use [Dagger 2](https://github.com/google/dagger)
 - Language used - Kotlin (being the official language of Google)
 
 ## Test

@@ -14,11 +14,14 @@ import android.view.ViewGroup
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.FashionAdapter
 import com.andela.d2_news_application.adapter.HomeAdapter
+import com.andela.d2_news_application.application.BaseApplication
+import com.andela.d2_news_application.data.ResultRepositoryImpl
 import com.andela.d2_news_application.databinding.FragmentFashionBinding
 import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_fashion.*
+import javax.inject.Inject
 
 
 /**
@@ -30,6 +33,12 @@ class FashionFragment : Fragment() {
     private lateinit var binding: FragmentFashionBinding
 
     private lateinit var viewModel: SharedViewModel
+
+    @Inject
+    lateinit var injector: InjectorUtils
+
+    @Inject
+    lateinit var result: ResultRepositoryImpl
 
     private val listAdapter by lazy {
         FashionAdapter({
@@ -55,6 +64,8 @@ class FashionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        BaseApplication.appComponent.inject(this)
         initViewModel()
         viewModel.fashionData.observeForever({
             if (it !== null) {
@@ -79,8 +90,8 @@ class FashionFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        val factory = InjectorUtils
-                .provideSharedViewModelFactory(context!!)
+        val factory = injector
+                .provideSharedViewModelFactory(result)
         viewModel = ViewModelProviders
                 .of(activity!!, factory).get(SharedViewModel::class.java)
     }
