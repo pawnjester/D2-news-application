@@ -52,4 +52,5 @@ class FashionAdapter(val onClick : (item: FashionResults) -> Unit): RecyclerView
             onClick(item)
         }
     }
+
 }

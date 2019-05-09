@@ -5,9 +5,9 @@ import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
 import io.reactivex.Observable
 
-interface ResultRepository {
+interface ResultRepository<T, R, F> {
 
-    fun getHomeNews() : Observable<List<ResultsItem>>
-    fun getFashionNews() : Observable<List<FashionResults>>
-    fun getFoodNews() : Observable<List<FoodResults>>
+    fun getHomeNews() : Observable<List<T>>
+    fun getFashionNews() : Observable<List<R>>
+    fun getFoodNews() : Observable<List<F>>
 }

@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 class ResultRepositoryImpl @Inject constructor(
         val localRepo: ResultLocalRepositoryImpl,
-        val remoteRepo: ResultRemoteRespositoryImpl) : ResultRepository {
+        val remoteRepo: ResultRemoteRespositoryImpl) : ResultRepository<ResultsItem,
+        FashionResults, FoodResults > {
 
     override fun getHomeNews(): Observable<List<ResultsItem>> {
 

@@ -12,6 +12,7 @@ import com.andela.d2_news_application.utils.InjectorUtils
 import dagger.Module
 import dagger.Provides
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,6 +23,9 @@ class AppModule(val app: Application) {
 
     @Provides
     fun providesApplication() = app
+
+    @Provides @Singleton @Named("baseUrl")
+    fun provideBaseUrl() = "https://api.nytimes.com/svc/topstories/v2/"
 
     @Provides @Singleton fun providesLocalRespository(dao: ArticlesDao):
             ResultLocalRepositoryImpl =  ResultLocalRepositoryImpl(dao)
