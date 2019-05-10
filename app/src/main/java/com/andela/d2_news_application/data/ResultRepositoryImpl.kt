@@ -6,6 +6,7 @@ import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 import com.andela.d2_news_application.model.ResultsItem
 import io.reactivex.Observable
+import io.reactivex.Observer
 import javax.inject.Inject
 
 class ResultRepositoryImpl @Inject constructor(

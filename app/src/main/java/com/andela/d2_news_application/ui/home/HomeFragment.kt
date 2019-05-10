@@ -21,6 +21,7 @@ import com.andela.d2_news_application.ui.contacts.ContactsFragment
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -35,6 +36,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: SharedViewModel
+    private val compositeDisposable = CompositeDisposable()
 
     @Inject
     lateinit var injectorUtils: InjectorUtils
@@ -55,6 +57,14 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_home,
                 container, false )
+        binding.vm = viewModel
+        viewModel.viewCommmands.subscribe {
+            when(it) {
+                is SharedViewModel.ViewActions.Loading -> home_progress.show()
+                is SharedViewModel.ViewActions.notLoading -> home_progress.dontShow()
+                is SharedViewModel.ViewActions.displayArticles -> listAdapter.updateList(it.items)
+            }
+        }.addToCompositeDisposable(compositeDisposable)
 
         with(binding.homeRecycler) {
             setHasFixedSize(true)
@@ -72,11 +82,11 @@ class HomeFragment : Fragment() {
         BaseApplication.appComponent.inject(this)
         initViewModel()
 
-        viewModel.homeData.observeForever({
+        viewModel.homeData.observeForever {
             if (it !== null) {
                 listAdapter.updateList(it)
             }
-        })
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,7 +100,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSwipe() {
-        swipeContainerHome.setOnRefreshListener { getHomeArticles() }
+//        swipeContainerHome.setOnRefreshListener { getHomeArticles() }
     }
 
     private fun initViewModel() {
@@ -108,24 +118,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun getHomeArticles() {
-        home_progress.show()
-        viewModel.getHome({
-            response, error ->
-            if (response!!.isNotEmpty()) {
-                viewModel.homeData.value = response
-                listAdapter.updateList(response)
-                home_progress.dontShow()
-                swipeContainerHome.isRefreshing = false
-                binding.noArticles.dontShow()
-            }else {
-                binding.noArticles.show()
-                home_progress.dontShow()
-            }
-
-            if (error != null) {
-                context?.showToast("Error retrieving articles")
-            }
-        })
+//        home_progress.show()
+        viewModel.getHome()
+//        viewModel.getHome({
+//            response, error ->
+//            if (response!!.isNotEmpty()) {
+//                viewModel.homeData.value = response
+//                listAdapter.updateList(response)
+//                home_progress.dontShow()
+//                swipeContainerHome.isRefreshing = false
+//                binding.noArticles.dontShow()
+//            }else {
+//                binding.noArticles.show()
+//                home_progress.dontShow()
+//            }
+//
+//            if (error != null) {
+//                context?.showToast("Error retrieving articles")
+//            }
+//        })
     }
 
     override fun onDestroy() {
