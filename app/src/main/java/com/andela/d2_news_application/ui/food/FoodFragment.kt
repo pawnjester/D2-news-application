@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.FoodAdapter
@@ -18,6 +19,7 @@ import com.andela.d2_news_application.application.BaseApplication
 import com.andela.d2_news_application.data.ResultRepositoryImpl
 import com.andela.d2_news_application.databinding.FragmentFoodBinding
 import com.andela.d2_news_application.ui.contacts.ContactsFragment
+import com.andela.d2_news_application.ui.home.HomeFragmentDirections
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_food.*
@@ -39,9 +41,9 @@ class FoodFragment : Fragment() {
 
 
     private val listAdapter by lazy {
-        FoodAdapter({
-            goToContactsFragment()
-            viewModel.foodItem = it
+        FoodAdapter({ item, view ->
+            goToContactsFragment(view)
+            viewModel.foodItem = item
         })
     }
 
@@ -66,7 +68,6 @@ class FoodFragment : Fragment() {
 
         BaseApplication.appComponent.inject(this)
         initViewModel()
-
         viewModel.foodData.observeForever({
 
             if (it !== null) {
@@ -92,11 +93,13 @@ class FoodFragment : Fragment() {
                 .of(activity!!, factory).get(SharedViewModel::class.java)
     }
 
-    private fun goToContactsFragment() {
-        activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
-                ?.commit()
+    private fun goToContactsFragment(view: View) {
+//        activity?.supportFragmentManager
+//                ?.beginTransaction()
+//                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
+//                ?.commit()
+        val nextAction = HomeFragmentDirections.actionHomeFragmentToContactsFragment()
+        Navigation.findNavController(view).navigate(nextAction)
     }
 
     private fun initSwipe() {

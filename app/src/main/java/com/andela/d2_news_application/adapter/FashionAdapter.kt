@@ -12,7 +12,7 @@ import com.andela.d2_news_application.model.FashionResults
 import com.andela.d2_news_application.model.FoodResults
 
 
-class FashionAdapter(val onClick : (item: FashionResults) -> Unit): RecyclerView.Adapter<FashionAdapter.HomeViewHolder>() {
+class FashionAdapter(val onClick : (item: FashionResults, view: View) -> Unit): RecyclerView.Adapter<FashionAdapter.HomeViewHolder>() {
 
     private var resultItems = mutableListOf<FashionResults>()
 
@@ -49,7 +49,7 @@ class FashionAdapter(val onClick : (item: FashionResults) -> Unit): RecyclerView
 
     private fun createOnClick(item: FashionResults): View.OnClickListener {
         return View.OnClickListener {
-            onClick(item)
+            onClick(item, it)
         }
     }
 

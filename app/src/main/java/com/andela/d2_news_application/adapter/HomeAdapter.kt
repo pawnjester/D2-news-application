@@ -9,7 +9,7 @@ import com.andela.d2_news_application.R
 import com.andela.d2_news_application.databinding.SingleItemBinding
 import com.andela.d2_news_application.model.ResultsItem
 
-class HomeAdapter(val onClick : (item: ResultsItem) -> Unit): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeAdapter(val onClick : (item: ResultsItem, view: View) -> Unit): RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     private var resultItems = mutableListOf<ResultsItem>()
 
@@ -46,7 +46,7 @@ class HomeAdapter(val onClick : (item: ResultsItem) -> Unit): RecyclerView.Adapt
 
     private fun createOnClick(item : ResultsItem): View.OnClickListener {
         return View.OnClickListener {
-            onClick(item)
+            onClick(item, it)
         }
     }
 }

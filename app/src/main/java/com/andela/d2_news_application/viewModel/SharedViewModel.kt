@@ -51,38 +51,38 @@ class SharedViewModel @Inject constructor(val repository: ResultRepository<Resul
     var contactItem: ContactsModel ? = null
 
 
-//    fun getHome(onDataObtained: (List<ResultsItem>?, Throwable?) -> Unit)  {
-//
-//        disposable = repository.getHomeNews()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe({
-//                    onDataObtained(it, null)
-//                },  {
-//                    onDataObtained(null, it)
-//                })
-//    }
+    fun getHome(onDataObtained: (List<ResultsItem>?, Throwable?) -> Unit)  {
 
-    fun getHome() {
         disposable = repository.getHomeNews()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    viewCommmands.onNext(ViewActions.Loading)
-                }
-                .doOnTerminate {
-                    viewCommmands.onNext(ViewActions.notLoading)
-                }
                 .subscribe({
-                    if (it.isNotEmpty()) {
-                        homeData.value = it
-                        viewCommmands.onNext(ViewActions.displayArticles(it))
-                    } else {
-                        viewCommmands.onNext(ViewActions.notLoading)
-                    }
+                    onDataObtained(it, null)
                 },  {
+                    onDataObtained(null, it)
                 })
     }
+
+//    fun getHome() {
+//        disposable = repository.getHomeNews()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .doOnSubscribe {
+//                    viewCommmands.onNext(ViewActions.Loading)
+//                }
+//                .doOnTerminate {
+//                    viewCommmands.onNext(ViewActions.notLoading)
+//                }
+//                .subscribe({
+//                    if (it.isNotEmpty()) {
+//                        homeData.value = it
+//                        viewCommmands.onNext(ViewActions.displayArticles(it))
+//                    } else {
+//                        viewCommmands.onNext(ViewActions.notLoading)
+//                    }
+//                },  {
+//                })
+//    }
 
     fun getFood(onDataObtained: (List<FoodResults>?, Throwable?) -> Unit) {
 

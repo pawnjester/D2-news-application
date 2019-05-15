@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.FashionAdapter
@@ -18,6 +19,7 @@ import com.andela.d2_news_application.application.BaseApplication
 import com.andela.d2_news_application.data.ResultRepositoryImpl
 import com.andela.d2_news_application.databinding.FragmentFashionBinding
 import com.andela.d2_news_application.ui.contacts.ContactsFragment
+import com.andela.d2_news_application.ui.home.HomeFragmentDirections
 import com.andela.d2_news_application.utils.*
 import com.andela.d2_news_application.viewModel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_fashion.*
@@ -41,9 +43,9 @@ class FashionFragment : Fragment() {
     lateinit var result: ResultRepositoryImpl
 
     private val listAdapter by lazy {
-        FashionAdapter({
-            goToContactsFragment()
-            viewModel.fashionItem = it
+        FashionAdapter({ item, view ->
+            goToContactsFragment(view)
+            viewModel.fashionItem = item
         })
     }
 
@@ -96,11 +98,13 @@ class FashionFragment : Fragment() {
                 .of(activity!!, factory).get(SharedViewModel::class.java)
     }
 
-    private fun goToContactsFragment() {
-        activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
-                ?.commit()
+    private fun goToContactsFragment(view: View) {
+//        activity?.supportFragmentManager
+//                ?.beginTransaction()
+//                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
+//                ?.commit()
+        val nextAction = HomeFragmentDirections.actionHomeFragmentToContactsFragment()
+        Navigation.findNavController(view).navigate(nextAction)
     }
 
     private fun getFahionArticles() {

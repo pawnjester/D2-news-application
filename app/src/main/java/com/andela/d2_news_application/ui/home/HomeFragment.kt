@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.adapter.HomeAdapter
@@ -45,9 +46,10 @@ class HomeFragment : Fragment() {
     lateinit var result: ResultRepositoryImpl
 
     private val listAdapter by lazy {
-        HomeAdapter({
-            viewModel.homeItem = it
-            goToContactsFragment()
+        HomeAdapter({item, view ->
+            goToContactsFragment(view)
+            viewModel.homeItem = item
+
         })
     }
 
@@ -100,7 +102,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initSwipe() {
-//        swipeContainerHome.setOnRefreshListener { getHomeArticles() }
+        swipeContainerHome.setOnRefreshListener { getHomeArticles() }
     }
 
     private fun initViewModel() {
@@ -110,33 +112,35 @@ class HomeFragment : Fragment() {
                 .of(activity!!, factory).get(SharedViewModel::class.java)
     }
 
-    private fun goToContactsFragment() {
-        activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
-                ?.commit()
+    private fun goToContactsFragment(view: View) {
+//        activity?.supportFragmentManager
+//                ?.beginTransaction()
+//                ?.replace(R.id.frame_container, ContactsFragment.newInstance())
+//                ?.commit()
+        val nextAction = HomeFragmentDirections.actionHomeFragmentToContactsFragment()
+        Navigation.findNavController(view).navigate(nextAction)
     }
 
     private fun getHomeArticles() {
-//        home_progress.show()
-        viewModel.getHome()
-//        viewModel.getHome({
-//            response, error ->
-//            if (response!!.isNotEmpty()) {
-//                viewModel.homeData.value = response
-//                listAdapter.updateList(response)
-//                home_progress.dontShow()
-//                swipeContainerHome.isRefreshing = false
-//                binding.noArticles.dontShow()
-//            }else {
-//                binding.noArticles.show()
-//                home_progress.dontShow()
-//            }
-//
-//            if (error != null) {
-//                context?.showToast("Error retrieving articles")
-//            }
-//        })
+        home_progress.show()
+//        viewModel.getHome()
+        viewModel.getHome({
+            response, error ->
+            if (response!!.isNotEmpty()) {
+                viewModel.homeData.value = response
+                listAdapter.updateList(response)
+                home_progress.dontShow()
+                swipeContainerHome.isRefreshing = false
+                binding.noArticles.dontShow()
+            }else {
+                binding.noArticles.show()
+                home_progress.dontShow()
+            }
+
+            if (error != null) {
+                context?.showToast("Error retrieving articles")
+            }
+        })
     }
 
     override fun onDestroy() {
