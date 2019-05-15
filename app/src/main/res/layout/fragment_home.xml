@@ -4,6 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="vm"
+            type="com.andela.d2_news_application.viewModel.SharedViewModel"/>
 
     </data>
 

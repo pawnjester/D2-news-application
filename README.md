@@ -23,7 +23,7 @@ The application can be accessed using this [link](http://www.droidbin.com/p1d2gh
 ## Application Architechure
 This application was written following the MVVM (Model-view-viewModel) architechure. The main reason behind this choice is because
 it enables us take advantage of the Google architechure components/ [Android Jetpack](https://developer.android.com/jetpack/docs/guide) components like the viewModel, Room,
-livedata and Databinding which was all evident in this application. I also made use of other libraries to ensure a seemless flow. They are listed below.
+livedata, Navigation Component and Databinding which was all evident in this application. I also made use of other libraries to ensure a seemless flow. They are listed below.
 
 The application follows best practices such as the repository pattern for abstracting classes and Dagger 2 For Dependency Injection.
 

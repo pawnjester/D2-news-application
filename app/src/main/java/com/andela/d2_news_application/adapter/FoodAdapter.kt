@@ -10,7 +10,7 @@ import com.andela.d2_news_application.databinding.SingleFoodItemBinding
 import com.andela.d2_news_application.databinding.SingleItemBinding
 import com.andela.d2_news_application.model.FoodResults
 
-class FoodAdapter (val onClick : (item: FoodResults) -> Unit): RecyclerView.Adapter<FoodAdapter.HomeViewHolder>() {
+class FoodAdapter (val onClick : (item: FoodResults, view: View) -> Unit): RecyclerView.Adapter<FoodAdapter.HomeViewHolder>() {
 
     private var resultItems = mutableListOf<FoodResults>()
 
@@ -47,7 +47,7 @@ class FoodAdapter (val onClick : (item: FoodResults) -> Unit): RecyclerView.Adap
 
     private fun createOnClick(item: FoodResults): View.OnClickListener {
         return View.OnClickListener {
-            onClick(item)
+            onClick(item, it)
         }
     }
 }

@@ -12,6 +12,8 @@ import android.widget.Toast
 import com.andela.d2_news_application.R
 import com.andela.d2_news_application.model.MultimediaItem
 import com.squareup.picasso.Picasso
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 
 fun Context.showToast(message: String) = Toast.makeText(
@@ -67,4 +69,8 @@ fun setImageUrl(view: ImageView?, imageUrl: List<MultimediaItem>?) {
             }
         }
     }
+}
+
+fun Disposable.addToCompositeDisposable(compositeDisposable: CompositeDisposable) {
+    compositeDisposable.add(this)
 }
